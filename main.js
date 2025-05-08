@@ -13,6 +13,7 @@ let map = L.map("map").setView([ibk.lat, ibk.lng], ibk.zoom);
 // thematische Layer
 let overlays = {
     stations: L.featureGroup().addTo(map),
+    temperature: L.featureGroup(),
 }
 
 // Layer control
@@ -26,6 +27,7 @@ L.control.layers({
     "Esri WorldImagery": L.tileLayer.provider("Esri.WorldImagery"),
 }, {
     "Wetterstationen": overlays.stations,
+    "Temperatur": overlays.temperature,
 }).addTo(map);
 
 // Maßstab
@@ -38,10 +40,10 @@ async function loadStations(url) {
     let response = await fetch(url);
     let jsondata = await response.json();
 
-// Wetterstationen mit Icons und Popups
+    // Wetterstationen mit Icons und Popups
     L.geoJSON(jsondata, {
         attribution: "Datenquelle: <a href='https://static.avalanche.report/weather_stations/stations.geojson'> Wetterstationen</a>",
-        pointToLayer: function(feature, latlng) {
+        pointToLayer: function (feature, latlng) {
             // console.log(feature.properties);
 
             return L.marker(latlng, {
@@ -52,11 +54,11 @@ async function loadStations(url) {
                 })
             });
         },
-        onEachFeature: function(feature, layer) {
+        onEachFeature: function (feature, layer) {
             let pointInTime = new Date(feature.properties.date);
             //console.log(pointInTime);
-             //console.log(feature.properties);
-             layer.bindPopup(`
+            //console.log(feature.properties);
+            layer.bindPopup(`
                 <h4>${feature.properties.name} (${feature.geometry.coordinates[2]}m)</h4>
                 <ul>
                 <li>Lufttemperatur (c) ${feature.properties.LT !== undefined ? feature.properties.LT : "-"}</li>
@@ -67,6 +69,21 @@ async function loadStations(url) {
                 <span>${pointInTime.toLocaleString()}</span>
                 `);
         }
-    }).addTo(overlays.stations);
+    }).addTo(overlays.stations)
+    showTemperature(jsondata);
 }
 loadStations("https://static.avalanche.report/weather_stations/stations.geojson");
+
+function showTemperature(jsondata) {
+    // TODO: display temperature data
+    L.geoJSON(jsondata, {
+        pointToLayer: function (feature, latlng) {
+            return L.marker(latlng, {
+                icon: L.divIcon({
+                    className: "aws-div-icon",
+                    html: `<span>${feature.properties.LT}</span>`
+                }),
+            })
+        },
+    }).addTo(overlays.temperature);
+}
