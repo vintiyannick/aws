@@ -87,7 +87,7 @@ function showTemperature(jsondata) {
             return L.marker(latlng, {
                 icon: L.divIcon({
                     className: "aws-div-icon",
-                    html: `<span style="background-color:${color}">${feature.properties.LT}</span>`
+                    html: `<span style="background-color:${color}">${feature.properties.LT.toFixed(1)}</span>`
                 }),
             })
         },
