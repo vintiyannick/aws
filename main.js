@@ -55,8 +55,14 @@ async function loadStations(url) {
         onEachFeature: function(feature, layer) {
              //console.log(feature.properties);
              layer.bindPopup(`
-                <h4>${feature.properties.name}</h4>
-                ${feature.properties.hoehe}
+                <h4>${feature.properties.name} (${feature.geometry.coordinates[2]}m)</h4>
+                <ul>
+                <li>Lufttemperatur (c) ${feature.properties.LT !== undefined ? feature.properties.LT : "-"}</li>
+                <li>Realtive Luftfeuchte (%) ${feature.properties.RH || "-"}</li>
+                <li>Windgeschwindigkeit (km/h) ${feature.properties.WG || "-"}</li>
+                <li>Schneehöhe (cm) ${feature.properties.HS || "-"}</li>
+                </ul>
+                <span></span>
                 `);
         }
     }).addTo(overlays.stations);
