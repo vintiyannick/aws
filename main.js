@@ -140,20 +140,28 @@ function showWind(jsondata) {
 function showDirection(jsondata) {
     L.geoJSON(jsondata, {
         filter: function (feature) {
-            if (feature.properties.WR >= 0 && feature.properties.WR <= 360) {
-                return true;
-            }
+            // Ensure WR (wind direction) is valid
+            return feature.properties.WR >= 0 && feature.properties.WR <= 360;
         },
         pointToLayer: function (feature, latlng) {
-            let color = getColor(feature.properties.WG, COLORS.wind);
+            let color = getColor(feature.properties.WG, COLORS.wind); // Use WG (wind speed) for color
+            let direction = degreesToCardinal(feature.properties.WR); // Convert WR (wind direction) to cardinal
+
             return L.marker(latlng, {
                 icon: L.divIcon({
                     className: "aws-div-icon",
-                    html: `<span style="background-color:${color}">${feature.properties.WR.toFixed(1)}</span>`
+                    html: `<span style="background-color:${color}">${direction}</span>` // Display cardinal direction
                 }),
-            })
+            });
         },
     }).addTo(overlays.direction);
+}
+
+// Windrichtung in Himmelsrichtung umwandeln
+function degreesToCardinal(degrees) {
+    const directions = ["N", "NE", "E", "SE", "S", "SW", "W", "NW"];
+    const index = Math.round(degrees / 45) % 8;
+    return directions[index];
 }
 
 //Schneehöhe anzeigen
