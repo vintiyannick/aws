@@ -145,13 +145,14 @@ function showDirection(jsondata) {
             return feature.properties.WR >= 0 && feature.properties.WR <= 360;
         },
         pointToLayer: function (feature, latlng) {
-            let color = getColor(feature.properties.WG, COLORS.wind); // Use WG (wind speed) for color
-            let direction = degreesToCardinal(feature.properties.WR); // Convert WR (wind direction) to cardinal
+            let color = getColor(feature.properties.WG, COLORS.wind);
+            let direction = degreesToCardinal(feature.properties.WR);
 
             return L.marker(latlng, {
                 icon: L.divIcon({
                     className: "aws-div-icon",
-                    html: `<span style="background-color:${color}">${direction}</span>` // Display cardinal direction
+                    html: `<span ><i style="transform:rotate(${feature.properties.WR}deg);
+                    color:${color}"class="fa-solid fa-circle-arrow-down"></i></span>`,
                 }),
             });
         },

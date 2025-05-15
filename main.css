@@ -66,8 +66,7 @@ footer nav {
 }
 
 .aws-div-icon-wind span {
-    border: 1px solid silver;
-    font-size: 1.25em;
+    font-size: 3em;
     font-weight: bold;
     padding: 0.5em;
     transform: translate(-30%, -50%);
