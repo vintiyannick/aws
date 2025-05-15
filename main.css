@@ -56,6 +56,36 @@ footer nav {
     font-size: 1.25em;
     font-weight: bold;
     padding: 0.3em;
+    transform: translate(-30%, -50%);
+    display: inline-block;
+    text-shadow:
+        -1px -1px white,
+        -1px 1px white,
+        1px -1px white,
+        1px 1px white;
+}
+
+.aws-div-icon-wind span {
+    border: 1px solid silver;
+    font-size: 1.25em;
+    font-weight: bold;
+    padding: 0.3em;
+    transform: translate(-30%, -50%);
+    display: inline-block;
+    text-shadow:
+        -1px -1px white,
+        -1px 1px white,
+        1px -1px white,
+        1px 1px white;
+}
+
+.aws-div-icon-snow span {
+    border: 1px solid silver;
+    font-size: 1.25em;
+    font-weight: bold;
+    padding: 0.3em;
+    transform: translate(-30%, -50%);
+    display: inline-block;
     text-shadow:
         -1px -1px white,
         -1px 1px white,
